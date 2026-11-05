@@ -1,71 +1,82 @@
-# ClassMarksAnalyzer
+## Author
+NAME : Aakesh kumar singh
+ERP : RU-26-00669
 
-An interactive command-line application that analyzes a set of class marks using NumPy.
+
+# Class Marks Analyzer
+
+A simple, interactive Python program that summarizes student marks using NumPy. It calculates class statistics and reports pass and fail counts, pass percentage, and the number of students scoring above the class average.
 
 ## Features
 
-- Calculates mean, median, minimum, maximum, and population standard deviation.
-- Counts passing (40 or above), failing, and above-average students.
-- Rejects empty input, non-numeric marks, NaN, infinity, and values outside 0-100.
+- Accepts multiple marks entered on one line, separated by spaces.
+- Validates that marks are finite numbers from 0 to 100, inclusive.
+- Calculates the mean, median, highest mark, lowest mark, and population standard deviation.
+- Classifies marks of 40 or higher as passing; marks below 40 are failing.
+- Displays a formatted report with statistics to two decimal places.
+- Shows a clear error and skips the report when input is invalid or empty.
 
-## Prerequisites
+## Requirements
 
-- Windows PowerShell
-- [uv](https://docs.astral.sh/uv/)
-- Python 3.14 (uv will use the version declared by this project)
+- Python 3
+- NumPy
 
-## Setup
+Install NumPy if needed:
 
-From the project directory, create the environment and install the locked dependencies:
-
-```powershell
-uv sync
+```bash
+python -m pip install numpy
 ```
 
-To activate it manually:
+## Run the program
 
-```powershell
-.\\.venv\\Scripts\\Activate.ps1
+From the project directory, run:
+
+```bash
+python class_marks_analyzer.py
 ```
 
-If PowerShell blocks activation, run `Set-ExecutionPolicy -Scope Process Bypass` for the current shell, then retry.
+When prompted, enter marks separated by spaces. For example:
 
-## Run
-
-```powershell
-uv run python class_marks_analyzer.py
+```text
+Enter marks separated by spaces: 40 50 60 70 80
 ```
 
-Enter marks separated by spaces, for example: `35 40 50 75 90`.
+The program prints a report containing the mean, median, maximum, minimum, population standard deviation, passed students, failed students, pass percentage, and above-average students.
 
-## Dependencies
+## Calculation rules
 
-NumPy is declared in both `pyproject.toml` and `requirements.txt` with the same version constraint. The lockfile is authoritative for reproducible `uv sync` installs.
+- **Pass:** mark is greater than or equal to 40.
+- **Fail:** mark is less than 40.
+- **Pass percentage:** passed students divided by total students, multiplied by 100.
+- **Above average:** mark is strictly greater than the class mean. A mark equal to the mean is not counted.
+- **Standard deviation:** population standard deviation, calculated with NumPy's `ddof=0` convention.
 
-Install the requirements file into the project interpreter when needed:
+## Input validation
 
-```powershell
-uv pip install --python .venv\\Scripts\\python.exe -r requirements.txt
-```
+The program rejects empty input, non-numeric text, non-finite values such as `NaN` or `inf`, and marks outside the 0–100 range. It does not remove invalid entries or generate a report for invalid input.
 
-Add future dependencies through uv, which updates the project metadata and lockfile:
+## Example test inputs
 
-```powershell
-uv add <package>
-```
+| Input | Expected highlights |
+| --- | --- |
+| `40 50 60 70 80` | Mean 60.00; 5 passed; 0 failed |
+| `75` | Mean 75.00; standard deviation 0.00 |
+| `25 50 75 100` | Mean 62.50; 3 passed; 1 failed; pass percentage 75.00% |
+| `50 abc 70` | Rejected with an invalid-mark message |
+| `50 105 70` | Rejected because marks must be between 0 and 100 |
 
-## Troubleshooting
+## Project file
 
-`ModuleNotFoundError: No module named 'numpy'` means the program is running with a different interpreter. Run it with `uv run python class_marks_analyzer.py`, or select `.venv\\Scripts\\python.exe` in VS Code. Do not install packages into a uv-managed global Python installation.
+- `class_marks_analyzer.py` — contains input handling, validation, NumPy analysis, and report display.
 
-## Clone on another computer
+- ## Project Mentor
 
-```powershell
-git clone <repository-url>
-cd ClassMarksAnalyzer
-uv sync
-uv run python class_marks_analyzer.py
-```
+*Mentored by:* [Mr. Satyaprakash Sethy](https://github.com/SATYAPRAKASHSETHY)
+
+*GitHub:* [@SATYAPRAKASHSETHY](https://github.com/SATYAPRAKASHSETHY)
+
+*Role:* Python Mentor / Technical Guide
+
 
 VS Code detects the project interpreter through `.vscode/settings.json`. Install the Microsoft Python and Pylance extensions for the best editor experience.
 
